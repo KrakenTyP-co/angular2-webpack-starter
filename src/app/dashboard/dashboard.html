@@ -1,0 +1,81 @@
+<div class="card-container">
+  <md-card>
+    <md-card-title>
+      <h2>Pracovnik</h2>
+    </md-card-title>
+    <md-card-content>
+      <md-list>
+        <md-list-item *ngFor="let invoice of monthItem.invoiceList.data | mapValues">
+          {{invoice.val.title}}
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+    <md-card-actions align="end">
+      <button md-button color="primary">SNIFF</button>
+      <button md-button color="primary">WOOF</button>
+    </md-card-actions>
+  </md-card>
+  <md-card>
+    <md-card-title>
+      <h2>Faktury</h2>
+    </md-card-title>
+    <md-card-content>
+      <md-list>
+        <md-list-item *ngFor="let invoice of monthItem.invoiceList.data | mapValues">
+          {{invoice.val.title}}
+        </md-list-item>
+      </md-list>
+
+      <form>
+        <md-input required>
+          <md-placeholder>
+            <md-icon>fingerprint</md-icon>
+            Nazov
+          </md-placeholder>
+        </md-input>
+        <md-input required>
+          <md-placeholder>
+            <md-icon>euro_symbol</md-icon>
+            Suma
+          </md-placeholder>
+        </md-input>
+        <md-input>
+          <md-placeholder>
+            <md-icon>receipt</md-icon>
+            Popis
+          </md-placeholder>
+        </md-input>
+
+        <md-radio-group required>
+          <md-radio-button value="true" [checked]="true">Vystavena</md-radio-button>
+          <md-radio-button value="false">Prijata</md-radio-button>
+        </md-radio-group>
+        <div>
+          <md-checkbox [checked]="true" required>Z DPH</md-checkbox>
+          <md-checkbox [checked]="true" required>Cena zahrna DPH</md-checkbox>
+        </div>
+
+      </form>
+    </md-card-content>
+    <md-card-actions align="end">
+      <button md-button color="primary">Vymazat</button>
+      <button md-raised-button color="primary" type="submit">Zaznamenat</button>
+    </md-card-actions>
+  </md-card>
+  <md-card>
+    <md-card-title>
+      <h2>Ostatne</h2>
+    </md-card-title>
+    <md-card-content>
+      <md-list>
+        <md-list-item *ngFor="let invoice of monthItem.invoiceList.data | mapValues">
+          {{invoice.val.title}}
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+    <md-card-actions align="end">
+      <button md-button color="primary">SNIFF</button>
+      <button md-button color="primary">WOOF</button>
+    </md-card-actions>
+  </md-card>
+</div>

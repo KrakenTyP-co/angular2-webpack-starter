@@ -163,7 +163,7 @@ module.exports = {
        */
       {
         test: /\.css$/,
-        loader: 'raw-loader'
+        loaders: ['raw-loader', 'postcss-loader']
       },
 
       /* Raw loader support for *.html
@@ -175,10 +175,30 @@ module.exports = {
         test: /\.html$/,
         loader: 'raw-loader',
         exclude: [helpers.root('src/index.html')]
+      },
+
+      /* Sass preprocessor
+       */
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loaders: ['raw-loader', 'sass-loader', 'postcss-loader']
       }
 
     ]
 
+  },
+
+  postcss: [
+    require('postcss-cssnext')({
+      browsers: ['ie >= 9', 'last 2 versions']
+    })
+  ],
+  //
+  sassLoader: {
+    outputStyle:    'compressed',
+    precision:      10,
+    sourceComments: false
   },
 
   /*

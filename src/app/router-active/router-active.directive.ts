@@ -8,8 +8,8 @@ import {
   QueryList,
   Renderer
 } from '@angular/core';
-import { isPresent } from '@angular/core/src/facade/lang';
-import { Instruction, Router, RouterLink } from '@angular/router-deprecated';
+import {isPresent} from '@angular/core/src/facade/lang';
+import {Instruction, Router, RouterLink} from '@angular/router-deprecated';
 
 /**
  * RouterActive dynamically finds the first element with routerLink and toggles the active class
@@ -25,20 +25,19 @@ import { Instruction, Router, RouterLink } from '@angular/router-deprecated';
   selector: '[router-active]'
 })
 export class RouterActive {
-  @Input() routerActive: string = undefined;
-  routerActiveAttr: string = 'active';
+  @Input() routerActive: string     = undefined;
+           routerActiveAttr: string = 'active';
 
-  constructor(
-    public router: Router,
-    public element: ElementRef,
-    public renderer: Renderer,
-    @Query(RouterLink) public routerLink: QueryList<RouterLink>,
-    @Optional() @Attribute('router-active') routerActiveAttr?: string) {
+  constructor (public router: Router,
+               public element: ElementRef,
+               public renderer: Renderer,
+               @Query(RouterLink) public routerLink: QueryList<RouterLink>,
+               @Optional() @Attribute('router-active') routerActiveAttr?: string) {
 
-      this.routerActiveAttr = this._defaultAttrValue(routerActiveAttr);
+    this.routerActiveAttr = this._defaultAttrValue(routerActiveAttr);
   }
 
-  ngOnInit() {
+  ngOnInit () {
     this.routerLink.changes.subscribe(() => {
       if (this.routerLink.first) {
         this._updateClass();
@@ -49,7 +48,7 @@ export class RouterActive {
     });
   }
 
-  private _findRootRouter(): Router {
+  private _findRootRouter (): Router {
     let router: Router = this.router;
     while (isPresent(router.parent)) {
       router = router.parent;
@@ -57,16 +56,16 @@ export class RouterActive {
     return router;
   }
 
-  private _updateClass() {
+  private _updateClass () {
     let active = this.routerLink.first.isRouteActive;
     this.renderer.setElementClass(this.element.nativeElement, this._attrOrProp(), active);
   }
 
-  private _defaultAttrValue(attr?: string) {
+  private _defaultAttrValue (attr?: string) {
     return this.routerActiveAttr = attr || this.routerActiveAttr;
   }
 
-  private _attrOrProp() {
+  private _attrOrProp () {
     return isPresent(this.routerActive) ? this.routerActive : this.routerActiveAttr;
   }
 }

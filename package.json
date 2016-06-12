@@ -154,7 +154,16 @@
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
     "webpack-md5-hash": "^0.0.5",
-    "webpack-merge": "^0.12.0"
+    "webpack-merge": "^0.12.0",
+
+
+    "angularfire2": "2.0.0-beta.0",
+    "firebase": "~2.4.2",
+    "node-sass": "~3.7.0",
+    "sass-loader": "~3.2.0",
+    "postcss-cssnext": "^2.6.0",
+    "postcss-loader": "^0.9.1",
+    "to-string-loader": "^1.1.4"
   },
   "repository": {
     "type": "git",
