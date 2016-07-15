@@ -30,7 +30,7 @@ export class PaymentList implements List {
     return this.data.entries().next().value;
   }
 
-  getByMonth (month: Number): PaymentList {
+  getByMonth (month: number): PaymentList {
     let list = new this;
     for (let [key, value] of this.data) {
       if (month === value.month) {

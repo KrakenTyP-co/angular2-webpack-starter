@@ -1,14 +1,9 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component, ViewEncapsulation} from '@angular/core';
-import {RouteConfig, Router} from '@angular/router-deprecated';
+import { Component, ViewEncapsulation } from '@angular/core';
 
-import {AppState} from './app.service';
-import {Home} from './home';
-import {RouterActive} from './router-active';
-
-import {Dashboard} from './dashboard/dashboard.component';
+import { AppState } from './app.service';
 
 /*
  * App Component
@@ -18,25 +13,18 @@ import {Dashboard} from './dashboard/dashboard.component';
   selector:      'app',
   pipes:         [],
   providers:     [],
-  directives:    [RouterActive],
+  directives:    [],
   encapsulation: ViewEncapsulation.None,
   styles:        [
-    require('normalize.css'),
-    require('./app.scss')
+    <string>require('normalize.css'),
+    <string>require('./app.scss')
   ],
-  template: require('./app.html')
+  templateUrl:   './app.html'
 })
-@RouteConfig([
-  {path: '/', name: 'Index', component: Dashboard, useAsDefault: true},
-  {path: '/dashboard', name: 'Dashboard', component: Dashboard},
-  {path: '/home', name: 'Home', component: Home},
-  // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
-  {path: '/about', name: 'About', loader: () => require('es6-promise!./about')('About')}
-])
 export class App {
 
   constructor (public appState: AppState) {
-    this.appState.config = require('./app.config.json');
+    this.appState.config = <JSON>require('./app.config.json');
   }
 
   ngOnInit () {

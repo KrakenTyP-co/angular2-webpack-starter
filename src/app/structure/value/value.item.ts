@@ -12,7 +12,7 @@ export class ValueItem implements Item {
 
   }
 
-  identifier (): Number {
+  identifier (): number {
     return this.id;
   }
 

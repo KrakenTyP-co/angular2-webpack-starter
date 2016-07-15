@@ -34,7 +34,7 @@ export class InvoiceList implements List {
   }
 
 
-  getByMonth (month: Number): InvoiceList {
+  getByMonth (month: number): InvoiceList {
     let list = new InvoiceList();
     this.data.forEach((value, key) => {
       if (month === value.month) {

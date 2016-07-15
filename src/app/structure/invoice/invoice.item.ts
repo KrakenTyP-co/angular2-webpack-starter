@@ -11,15 +11,15 @@ export class InvoiceItem implements Item {
   constructor () {
   }
 
-  identifier (): Number {
+  identifier (): number {
     return this.id;
   }
 
-  set month (month: Number) {
+  set month (month: number) {
     this._month = month.valueOf() + 1;
   }
 
-  get month (): Number {
+  get month (): number {
     return this._month;
   }
 

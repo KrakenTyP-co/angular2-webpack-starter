@@ -1,3 +1,3 @@
 export interface Item {
-  identifier(): Number;
+  identifier(): number;
 }

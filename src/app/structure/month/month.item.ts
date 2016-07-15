@@ -9,7 +9,7 @@ export class MonthItem implements Item {
 
   }
 
-  identifier (): Number {
+  identifier (): number {
     return this.id;
   }
 }

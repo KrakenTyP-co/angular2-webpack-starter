@@ -14,19 +14,19 @@ export class PaymentItem implements Item {
 
   }
 
-  identifier (): Number {
+  identifier (): number {
     return this.id;
   }
 
-  get totalPrice (): Number {
+  get totalPrice (): number {
     return this.valueItem.price + this.socialInsurance.price + this.secureInsurance.price;
   }
 
-  set month (month: Number) {
+  set month (month: number) {
     this._month = month + 1;
   }
 
-  get month (): Number {
+  get month (): number {
     return this._month;
   }
 }

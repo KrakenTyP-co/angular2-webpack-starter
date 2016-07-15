@@ -12,7 +12,7 @@ export class EmployerItem implements Item {
 
   }
 
-  identifier (): Number {
+  identifier (): number {
     return this.id;
   }
 

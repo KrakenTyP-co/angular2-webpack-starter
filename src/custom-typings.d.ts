@@ -5,12 +5,23 @@
 
 typings install dt~node --save --global
 
- * If you can't find the type definition in the registry we can make an ambient definition in
+ * If you can't find the type definition in the registry we can make an ambient/global definition in
  * this file for now. For example
 
- declare module "my-module" {
-   export function doesSomething(value: string): string;
- }
+declare module "my-module" {
+ export function doesSomething(value: string): string;
+}
+
+ * If you are using a CommonJS module that is using module.exports then you will have to write your
+ * types using export = yourObjectOrFunction with a namespace above it
+ * notice how we have to create a namespace that is equal to the function we're assigning
+ * the export to
+
+declare module "jwt-decode" {
+  function jwtDecode(token: string): any;
+  namespace jwtDecode {}
+  export = jwtDecode;
+}
 
  *
  * If you're prototying and you will fix the types later you can also declare it as type any
@@ -35,10 +46,31 @@ import * as _ from 'lodash'
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;
 declare var HMR: boolean;
+
 interface GlobalEnvironment {
   ENV;
   HMR;
 }
+
+interface Es6PromiseLoader {
+  (id: string): (exportName?: string) => Promise<any>;
+}
+
+type FactoryEs6PromiseLoader = () => Es6PromiseLoader;
+type FactoryPromise = () => Promise<any>;
+
+type AsyncRoutes = {
+  [component: string]: Es6PromiseLoader |
+                               Function |
+                FactoryEs6PromiseLoader |
+                         FactoryPromise
+};
+
+
+type IdleCallbacks = Es6PromiseLoader |
+                             Function |
+              FactoryEs6PromiseLoader |
+                       FactoryPromise ;
 
 interface WebpackModule {
   hot: {
@@ -56,66 +88,26 @@ interface WebpackModule {
   };
 }
 
+
 interface WebpackRequire {
-  context(file: string, flag?: boolean, exp?: RegExp): any;
+    (id: string): any;
+    (paths: string[], callback: (...modules: any[]) => void): void;
+    ensure(ids: string[], callback: (req: WebpackRequire) => void, chunkName?: string): void;
+    context(directory: string, useSubDirectories?: boolean, regExp?: RegExp): WebpackContext;
 }
 
+interface WebpackContext extends WebpackRequire {
+    keys(): string[];
+}
 
 interface ErrorStackTraceLimit {
   stackTraceLimit: number;
 }
 
 
-
 // Extend typings
 interface NodeRequire extends WebpackRequire {}
 interface ErrorConstructor extends ErrorStackTraceLimit {}
+interface NodeRequireFunction extends Es6PromiseLoader  {}
 interface NodeModule extends WebpackModule {}
 interface Global extends GlobalEnvironment  {}
-
-
-declare namespace Reflect {
-  function decorate(decorators: ClassDecorator[], target: Function): Function;
-  function decorate(
-    decorators: (PropertyDecorator | MethodDecorator)[],
-    target: Object,
-    targetKey: string | symbol,
-    descriptor?: PropertyDescriptor): PropertyDescriptor;
-
-  function metadata(metadataKey: any, metadataValue: any): {
-    (target: Function): void;
-    (target: Object, propertyKey: string | symbol): void;
-  };
-  function defineMetadata(metadataKey: any, metadataValue: any, target: Object): void;
-  function defineMetadata(
-    metadataKey: any,
-    metadataValue: any,
-    target: Object,
-    targetKey: string | symbol): void;
-  function hasMetadata(metadataKey: any, target: Object): boolean;
-  function hasMetadata(metadataKey: any, target: Object, targetKey: string | symbol): boolean;
-  function hasOwnMetadata(metadataKey: any, target: Object): boolean;
-  function hasOwnMetadata(metadataKey: any, target: Object, targetKey: string | symbol): boolean;
-  function getMetadata(metadataKey: any, target: Object): any;
-  function getMetadata(metadataKey: any, target: Object, targetKey: string | symbol): any;
-  function getOwnMetadata(metadataKey: any, target: Object): any;
-  function getOwnMetadata(metadataKey: any, target: Object, targetKey: string | symbol): any;
-  function getMetadataKeys(target: Object): any[];
-  function getMetadataKeys(target: Object, targetKey: string | symbol): any[];
-  function getOwnMetadataKeys(target: Object): any[];
-  function getOwnMetadataKeys(target: Object, targetKey: string | symbol): any[];
-  function deleteMetadata(metadataKey: any, target: Object): boolean;
-  function deleteMetadata(metadataKey: any, target: Object, targetKey: string | symbol): boolean;
-}
-
-
-// We need this here since there is a problem with Zone.js typings
-interface Thenable<T> {
-  then<U>(
-    onFulfilled?: (value: T) => U | Thenable<U>,
-    onRejected?: (error: any) => U | Thenable<U>): Thenable<U>;
-  then<U>(
-    onFulfilled?: (value: T) => U | Thenable<U>,
-    onRejected?: (error: any) => void): Thenable<U>;
-  catch<U>(onRejected?: (error: any) => U | Thenable<U>): Thenable<U>;
-}

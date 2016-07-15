@@ -12,7 +12,7 @@ export class InsuranceItem implements Item {
 
   }
 
-  identifier (): Number {
+  identifier (): number {
     return this.id;
   }
 
